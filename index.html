@@ -3,177 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Player</title>
+    <title>Exercise Audio Player</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-        }
-        .player-container {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 320px;
-        }
-        h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            background: #007bff;
-            color: white;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            width: 100%;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            font-size: 15px;
-            font-weight: 500;
-            color: #555;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-        }
-        .volume-control {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #444;
-            font-weight: 500;
-        }
-        input[type="range"] {
-            flex-grow: 1;
-            margin-left: 15px;
-            cursor: pointer;
-        }
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .player-card { background: white; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 300px; }
+        h3 { margin-top: 0; color: #333; }
+        .controls { display: flex; flex-direction: column; gap: 10px; }
+        .time-info { font-size: 0.85rem; color: #666; display: flex; justify-content: space-between; }
+        button { cursor: pointer; padding: 8px; background: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+        input[type="range"] { width: 100%; }
+        label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #888; }
     </style>
 </head>
 <body>
 
-<div class="player-container">
-    <h2>Now Playing</h2>
-    
-    <audio id="audioPlayer" src="audio2.mp3" preload="metadata"></audio>
+    <h1>Workout Sessions</h1>
 
-    <div class="controls">
-        <button id="playPauseBtn">Play</button>
-        
-        <div class="time-display">
-            <span id="currentTime">0:00</span>
-            <span id="remainingTime">-0:00</span>
-        </div>
-
-        <div class="volume-control">
-            <label for="volumeSlider">Volume</label>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+    <div class="player-card" id="card-exercise1">
+        <h3>Exercise 1</h3>
+        <audio id="exercise1" src="exercise1.mp3"></audio>
+        <div class="controls">
+            <button onclick="togglePlay('exercise1')">Play / Pause</button>
+            <div class="time-info">
+                <span id="exercise1-current">0:00</span>
+                <span id="exercise1-remain">-0:00</span>
+            </div>
+            <label>Volume</label>
+            <input type="range" min="0" max="1" step="0.1" value="1" oninput="changeVolume('exercise1', this.value)">
         </div>
     </div>
-</div>
 
-<script>
-    const audio = document.getElementById('audioPlayer');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const currentTimeEl = document.getElementById('currentTime');
-    const remainingTimeEl = document.getElementById('remainingTime');
-    const volumeSlider = document.getElementById('volumeSlider');
+    <div class="player-card" id="card-exercise2">
+        <h3>Exercise 2</h3>
+        <audio id="exercise2" src="exercise2.mp3"></audio>
+        <div class="controls">
+            <button onclick="togglePlay('exercise2')">Play / Pause</button>
+            <div class="time-info">
+                <span id="exercise2-current">0:00</span>
+                <span id="exercise2-remain">-0:00</span>
+            </div>
+            <label>Volume</label>
+            <input type="range" min="0" max="1" step="0.1" value="1" oninput="changeVolume('exercise2', this.value)">
+        </div>
+    </div>
 
-    // Helper function to format seconds into M:SS or H:MM:SS
-    function formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) return "0:00";
-        const hrs = Math.floor(seconds / 3600);
-        const min = Math.floor((seconds % 3600) / 60);
-        const sec = Math.floor(seconds % 60);
-        
-        const formattedMin = hrs > 0 && min < 10 ? '0' + min : min;
-        const formattedSec = sec < 10 ? '0' + sec : sec;
-        
-        return hrs > 0 
-            ? `${hrs}:${formattedMin}:${formattedSec}` 
-            : `${formattedMin}:${formattedSec}`;
-    }
+    <div class="player-card" id="card-exercise3">
+        <h3>Exercise 3</h3>
+        <audio id="exercise3" src="exercise3.mp3"></audio>
+        <div class="controls">
+            <button onclick="togglePlay('exercise3')">Play / Pause</button>
+            <div class="time-info">
+                <span id="exercise3-current">0:00</span>
+                <span id="exercise3-remain">-0:00</span>
+            </div>
+            <label>Volume</label>
+            <input type="range" min="0" max="1" step="0.1" value="1" oninput="changeVolume('exercise3', this.value)">
+        </div>
+    </div>
 
-    // Load saved progress and volume when the page loads
-    window.addEventListener('load', () => {
-        const savedTime = localStorage.getItem('audio2_progress');
-        if (savedTime !== null) {
-            audio.currentTime = parseFloat(savedTime);
+    <script>
+        const ids = ['exercise1', 'exercise2', 'exercise3'];
+
+        // Initialize players
+        ids.forEach(id => {
+            const audio = document.getElementById(id);
+            
+            // 1. Load saved progress from LocalStorage
+            const savedTime = localStorage.getItem(`progress-${id}`);
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // 2. Update time display as it plays
+            audio.ontimeupdate = () => {
+                const currentTxt = document.getElementById(`${id}-current`);
+                const remainTxt = document.getElementById(`${id}-remain`);
+                
+                // Save current position to local storage
+                localStorage.setItem(`progress-${id}`, audio.currentTime);
+
+                // Formatting time
+                currentTxt.innerText = formatTime(audio.currentTime);
+                if (!isNaN(audio.duration)) {
+                    remainTxt.innerText = "-" + formatTime(audio.duration - audio.currentTime);
+                }
+            };
+        });
+
+        function togglePlay(id) {
+            const audio = document.getElementById(id);
+            return audio.paused ? audio.play() : audio.pause();
         }
-        
-        const savedVolume = localStorage.getItem('audio2_volume');
-        if (savedVolume !== null) {
-            audio.volume = parseFloat(savedVolume);
-            volumeSlider.value = savedVolume;
+
+        function changeVolume(id, val) {
+            const audio = document.getElementById(id);
+            audio.volume = val;
         }
-    });
 
-    // Setup initial times once the browser reads the audio file's metadata
-    audio.addEventListener('loadedmetadata', () => {
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-        remainingTimeEl.textContent = "-" + formatTime(audio.duration - audio.currentTime);
-    });
-
-    // Handle Play / Pause
-    playPauseBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            playPauseBtn.textContent = 'Pause';
-        } else {
-            audio.pause();
-            playPauseBtn.textContent = 'Play';
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' + sec : sec}`;
         }
-    });
-
-    // Update times as the audio plays and save to local storage
-    audio.addEventListener('timeupdate', () => {
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-        
-        // Ensure duration is loaded before calculating remaining time
-        if (!isNaN(audio.duration)) {
-            remainingTimeEl.textContent = "-" + formatTime(audio.duration - audio.currentTime);
-        }
-        
-        // Save current timestamp to localStorage
-        localStorage.setItem('audio2_progress', audio.currentTime);
-    });
-
-    // Handle Volume Control
-    volumeSlider.addEventListener('input', (e) => {
-        audio.volume = e.target.value;
-        localStorage.setItem('audio2_volume', audio.volume);
-    });
-
-    // Reset when the audio finishes
-    audio.addEventListener('ended', () => {
-        playPauseBtn.textContent = 'Play';
-        localStorage.removeItem('audio2_progress'); // Clear saved time so it starts from the beginning next time
-        currentTimeEl.textContent = "0:00";
-        remainingTimeEl.textContent = "-" + formatTime(audio.duration);
-    });
-</script>
-
+    </script>
 </body>
 </html>
